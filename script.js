@@ -1,4 +1,11 @@
-function displayCountry(country)
+
+document.querySelector("#btnSearch").addEventListener("click",()=> {
+    text=document.querySelector("#txtSearch").values;
+    getCountry(text);
+
+})
+
+function getCountry(country)
  {
     const request= new XMLHttpRequest();
 
@@ -28,7 +35,7 @@ request.addEventListener("load",function() {
  }    
 
 
-function setCountry(data) {
+function renderCountry(data) {
     for(let country of data) {
 
   
@@ -48,7 +55,7 @@ function setCountry(data) {
            </ul>
            </div>
     
-       </div>
+       </div> 
     `;
      
     document.querySelector(".container .row").insertAdjacentHTML("beforeend",html);
@@ -56,6 +63,8 @@ function setCountry(data) {
 }
 
 displayCountry("türkiye");
+
+
 
 
 
