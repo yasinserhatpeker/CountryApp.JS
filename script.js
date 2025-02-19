@@ -29,7 +29,7 @@ request.addEventListener("load",function() {
 
     req.addEventListener("load",function(){
         const data=JSON.parse(this.responseText);
-        setCountry(data);
+        renderNeighbors(data);
     });
 });
  }    
@@ -72,6 +72,28 @@ function renderCountry(data) {
      `;
 
      document.querySelector("#country-details").innerHTML=html;
+}
+
+function renderNeighbors(data) {
+    let html="";
+    for(let country of data) {
+
+     html+=`
+            <div class="col-2 mt-3"> 
+                <div class="card h-100">
+                    <img src="${country.flags.png}" class="card-img-top">
+                    <div class="card-body">
+                        <h6 class="card-title">${country.name.common}</h6> 
+                    </div>
+                </div>
+            </div>
+        `;
+            
+    } 
+    document.querySelector("#neighbors").innerHTML=html;
+
+     
+     
 }
 
 
