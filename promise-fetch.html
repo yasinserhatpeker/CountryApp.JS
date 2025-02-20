@@ -15,6 +15,9 @@
 <body>
     
     <div class="container my-5">
+        <div class="div" id="errors">
+
+        </div>
         <div class="card mb-3">
             <div class="card-body">
                 <div class="input-group">
@@ -27,7 +30,7 @@
             
         </div>
         <div class="card mb-3">
-            <div class="card-header">Komşu Ülkeler</div>
+            <div class="card-header">Neighbors Countries</div>
             <div class="card-body">
                 <div class="row" id="neighbors">
 
@@ -45,7 +48,12 @@
 
     function getCountry(country) {
         fetch('https://restcountries.com/v3.1/name/' + country)
-            .then((response) => response.json())
+            .then((response) => { 
+                if(!response.ok) {
+                    throw new Error("Country is not found");
+                }
+                return response.json()
+            })
             .then((data) => {
                 renderCountry(data[0]);
                 const countries = data[0].borders.toString();
@@ -53,7 +61,12 @@
                 return fetch('https://restcountries.com/v3.1/alpha?codes=' + countries);
             })
             .then(response => response.json())
-            .then((data) => renderNeighbors(data));
+            .then((data) => renderNeighbors(data))
+            .catch((err)=> {
+                renderError(err)
+            });
+
+            
     }
 
     function renderCountry(data) {        
@@ -112,6 +125,22 @@
             
         }
         document.querySelector("#neighbors").innerHTML =  html;
+    }
+
+    function renderError(err) {
+     const html= `
+        <div class="alert alert-danger">
+         ${err.message}
+
+        </div>
+       
+       `;
+       setTimeout( function(){
+        document.querySelector("#errors").innerHTML="";
+
+       },3000)
+
+       document.querySelector("#errors").innerHTML=html;
     }
    </script>
     
